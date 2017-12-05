@@ -10,36 +10,80 @@ use App\Brand;
 
 class BrandController extends Controller
 {
-    public function __construct()
+     public function index()
     {
-		$this->brand = new Brand();
+    	$brand = Brand::all();
+		return view('brandes.list')->with('brand',$brand);
     }
-    public function index()
+    
+    public function create()
     {
-		return view('brands/list');
+		return view('brandes.add');
     }
-    public function add()
+    
+    public function store(Request $request)
     {
-		return view('brands/add');
+    	$this->validate($request, [
+        	'name'=>'required'
+        ]);
+    	
+    	$brand = new brand;
+    	$brand->name=$request->name;
+    	$brand->description=$request->description;
+    	$brand->created_by=Auth::id();
+    	$brand->updated_by=Auth::id();
+    	$brand->is_active=1;
+    	$result= $brand->save();
+    	
+		if($result){
+			return back()->with('success', 'Record added successfully!');
+		}
+		else{
+			return back()->with('error', 'Something went wrong!');
+		}
     }
-    public function save(Request $request)
+    
+    public function show($id)
     {
-		return redirect()->back();
+    	$brand = Brand::find($id);
+		return view('brandes.view')->with('brand',$brand);
     }
-    public function view($id)
-    {
-		return view('brands/view');
-    }
+    
     public function edit($id)
     {
-		return view('brands/edit');
+    	$brand = Brand::find($id);
+		return view('brandes/edit')->with('brand',$brand);;
     }
+    
     public function update(Request $request,$id)
     {
-		return redirect()->back();
+    	$this->validate($request, [
+        	'name'=>'required',
+        ]);
+        
+    	$brand = Brand::find($id);
+    	$brand->name=$request->name;
+    	$brand->description=$request->description;
+    	$brand->updated_by=1;
+    	$result = $brand->save();
+    	
+		if($result){
+			return back()->with('success', 'Record updated successfully!');
+		}
+		else{
+			return back()->with('error', 'Something went wrong!');
+		}
     }
-    public function delete($id)
+    
+    public function destroy($id)
     {
-		return redirect()->back();
+    	$result = Brand::find($id)->delete();
+        
+		if($result){
+			return back()->with('success','Record deleted successfully!');
+		}
+		else{
+			return back()->with('error','Something went wrong!');
+		}
     }
 }

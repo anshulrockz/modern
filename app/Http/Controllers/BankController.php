@@ -10,36 +10,80 @@ use App\Bank;
 
 class BankController extends Controller
 {
-    public function __construct()
-    {
-		$this->bank = new Bank();
-    }
     public function index()
     {
-		return view('banks/list');
+    	$bank = Bank::all();
+		return view('bankes.list')->with('bank',$bank);
     }
-    public function add()
+    
+    public function create()
     {
-		return view('banks/add');
+		return view('bankes.add');
     }
-    public function save(Request $request)
+    
+    public function store(Request $request)
     {
-		return redirect()->back();
+    	$this->validate($request, [
+        	'name'=>'required'
+        ]);
+    	
+    	$bank = new bank;
+    	$bank->name=$request->name;
+    	$bank->description=$request->description;
+    	$bank->created_by=Auth::id();
+    	$bank->updated_by=Auth::id();
+    	$bank->is_active=1;
+    	$result= $bank->save();
+    	
+		if($result){
+			return back()->with('success', 'Record added successfully!');
+		}
+		else{
+			return back()->with('error', 'Something went wrong!');
+		}
     }
-    public function view($id)
+    
+    public function show($id)
     {
-		return view('banks/view');
+    	$bank = Bank::find($id);
+		return view('bankes.view')->with('bank',$bank);
     }
+    
     public function edit($id)
     {
-		return view('banks/edit');
+    	$bank = Bank::find($id);
+		return view('bankes/edit')->with('bank',$bank);;
     }
+    
     public function update(Request $request,$id)
     {
-		return redirect()->back();
+    	$this->validate($request, [
+        	'name'=>'required',
+        ]);
+        
+    	$bank = Bank::find($id);
+    	$bank->name=$request->name;
+    	$bank->description=$request->description;
+    	$bank->updated_by=1;
+    	$result = $bank->save();
+    	
+		if($result){
+			return back()->with('success', 'Record updated successfully!');
+		}
+		else{
+			return back()->with('error', 'Something went wrong!');
+		}
     }
-    public function delete($id)
+    
+    public function destroy($id)
     {
-		return redirect()->back();
+    	$result = Bank::find($id)->delete();
+        
+		if($result){
+			return back()->with('success','Record deleted successfully!');
+		}
+		else{
+			return back()->with('error','Something went wrong!');
+		}
     }
 }

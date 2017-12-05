@@ -6,12 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 use App\Http\Requests;
 use DB;
 use Auth;
-use Carbon\Carbon;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Form extends Model
 {
-	public function __construct()
-    {
-		$this->date = Carbon::now('Asia/Kolkata');
-    }
+	use SoftDeletes;
+    protected $dates = ['deleted_at'];
 }

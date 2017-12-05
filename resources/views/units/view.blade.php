@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
 <div class="page-title">
-    <h3>Dashboard</h3>
+    <h3>Units</h3>
     <div class="page-breadcrumb">
         <ol class="breadcrumb">
             <li><a href="{{url('/')}}">Home</a></li>
@@ -12,10 +12,10 @@
 </div>
 <div id="main-wrapper">
     <div class="row">
-    	<div class="col-md-6">
+    	<div class="col-md-12">
             <div class="panel panel-white">
                 <div class="panel-heading clearfix">
-                    <h4 class="panel-title">{{ $unit->name }}</h4>
+                    <h4 class="panel-title">view unit</h4>
                 </div>
                 <div class="panel-body">
                     <table class="table table-striped">

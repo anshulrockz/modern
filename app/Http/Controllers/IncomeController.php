@@ -10,36 +10,80 @@ use App\Income;
 
 class IncomeController extends Controller
 {
-    public function __construct()
+     public function index()
     {
-		$this->income = new Income();
+    	$income = Income::all();
+		return view('incomees.list')->with('income',$income);
     }
-    public function index()
+    
+    public function create()
     {
-		return view('incomes/list');
+		return view('incomees.add');
     }
-    public function add()
+    
+    public function store(Request $request)
     {
-		return view('incomes/add');
+    	$this->validate($request, [
+        	'name'=>'required'
+        ]);
+    	
+    	$income = new income;
+    	$income->name=$request->name;
+    	$income->description=$request->description;
+    	$income->created_by=Auth::id();
+    	$income->updated_by=Auth::id();
+    	$income->is_active=1;
+    	$result= $income->save();
+    	
+		if($result){
+			return back()->with('success', 'Record added successfully!');
+		}
+		else{
+			return back()->with('error', 'Something went wrong!');
+		}
     }
-    public function save(Request $request)
+    
+    public function show($id)
     {
-		return redirect()->back();
+    	$income = Income::find($id);
+		return view('incomees.view')->with('income',$income);
     }
-    public function view($id)
-    {
-		return view('incomes/view');
-    }
+    
     public function edit($id)
     {
-		return view('incomes/edit');
+    	$income = Income::find($id);
+		return view('incomees/edit')->with('income',$income);;
     }
+    
     public function update(Request $request,$id)
     {
-		return redirect()->back();
+    	$this->validate($request, [
+        	'name'=>'required',
+        ]);
+        
+    	$income = Income::find($id);
+    	$income->name=$request->name;
+    	$income->description=$request->description;
+    	$income->updated_by=1;
+    	$result = $income->save();
+    	
+		if($result){
+			return back()->with('success', 'Record updated successfully!');
+		}
+		else{
+			return back()->with('error', 'Something went wrong!');
+		}
     }
-    public function delete($id)
+    
+    public function destroy($id)
     {
-		return redirect()->back();
+    	$result = Income::find($id)->delete();
+        
+		if($result){
+			return back()->with('success','Record deleted successfully!');
+		}
+		else{
+			return back()->with('error','Something went wrong!');
+		}
     }
 }

@@ -10,36 +10,80 @@ use App\Expense;
 
 class ExpenseController extends Controller
 {
-    public function __construct()
-    {
-		$this->expense = new Expense();
-    }
     public function index()
     {
-		return view('expenses/list');
+    	$expenses = Expenses::all();
+		return view('expenseses.list')->with('expenses',$expenses);
     }
-    public function add()
+    
+    public function create()
     {
-		return view('expenses/add');
+		return view('expenseses.add');
     }
-    public function save(Request $request)
+    
+    public function store(Request $request)
     {
-		return redirect()->back();
+    	$this->validate($request, [
+        	'name'=>'required'
+        ]);
+    	
+    	$expenses = new expenses;
+    	$expenses->name=$request->name;
+    	$expenses->description=$request->description;
+    	$expenses->created_by=Auth::id();
+    	$expenses->updated_by=Auth::id();
+    	$expenses->is_active=1;
+    	$result= $expenses->save();
+    	
+		if($result){
+			return back()->with('success', 'Record added successfully!');
+		}
+		else{
+			return back()->with('error', 'Something went wrong!');
+		}
     }
-    public function view($id)
+    
+    public function show($id)
     {
-		return view('expenses/view');
+    	$expenses = Expenses::find($id);
+		return view('expenseses.view')->with('expenses',$expenses);
     }
+    
     public function edit($id)
     {
-		return view('expenses/edit');
+    	$expenses = Expenses::find($id);
+		return view('expenseses/edit')->with('expenses',$expenses);;
     }
+    
     public function update(Request $request,$id)
     {
-		return redirect()->back();
+    	$this->validate($request, [
+        	'name'=>'required',
+        ]);
+        
+    	$expenses = Expenses::find($id);
+    	$expenses->name=$request->name;
+    	$expenses->description=$request->description;
+    	$expenses->updated_by=1;
+    	$result = $expenses->save();
+    	
+		if($result){
+			return back()->with('success', 'Record updated successfully!');
+		}
+		else{
+			return back()->with('error', 'Something went wrong!');
+		}
     }
-    public function delete($id)
+    
+    public function destroy($id)
     {
-		return redirect()->back();
+    	$result = Expenses::find($id)->delete();
+        
+		if($result){
+			return back()->with('success','Record deleted successfully!');
+		}
+		else{
+			return back()->with('error','Something went wrong!');
+		}
     }
 }

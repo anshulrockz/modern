@@ -1,8 +1,10 @@
 @extends('layouts.app')
 @section('content')
+<link href="{{asset('assets/plugins/datatables/css/jquery.datatables.css')}}" rel="stylesheet" type="text/css"/>    
+<link href="{{asset('assets/plugins/datatables/css/jquery.datatables_themeroller.css')}}" rel="stylesheet" type="text/css"/>
 <!-- BEGIN CONTENT -->
 <div class="page-title">
-    <!--<h3>Units</h3>-->
+    <h3>Units</h3>
     <div class="page-breadcrumb">
         <ol class="breadcrumb">
             <li><a href="{{ url('/') }}">Home</a></li>
@@ -15,7 +17,7 @@
         <div class="col-md-12">
         	<div class="panel panel-white">
                 <div class="panel-heading clearfix">
-		                <h3 class="panel-title">Units</h3>
+		                <h3 class="panel-title">All Units</h3>
 		                <div class="panel-control">
                             <a href="{{ url('/units/create') }}" class="pull-right btn btn-info">
 		                        <i class="fa fa-plus"></i> Add New
@@ -72,4 +74,12 @@
     <!-- END CONTENT BODY -->
 </div>
 <!-- END CONTENT -->
+<script src="{{asset('assets/plugins/datatables/js/jquery.datatables.min.js')}}"></script>
+<script>
+	$(document).ready(function(){
+	    $('#dataTable').DataTable({
+			"ordering": false
+		});
+	});
+</script>
 @endsection

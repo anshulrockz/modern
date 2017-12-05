@@ -10,36 +10,80 @@ use App\Manufacturer;
 
 class ManufacturerController extends Controller
 {
-    public function __construct()
+     public function index()
     {
-		$this->manufacturer = new Manufacturer();
+    	$manufacturer = Manufacturer::all();
+		return view('manufactureres.list')->with('manufacturer',$manufacturer);
     }
-    public function index()
+    
+    public function create()
     {
-		return view('manufacturers/list');
+		return view('manufactureres.add');
     }
-    public function add()
+    
+    public function store(Request $request)
     {
-		return view('manufacturers/add');
+    	$this->validate($request, [
+        	'name'=>'required'
+        ]);
+    	
+    	$manufacturer = new manufacturer;
+    	$manufacturer->name=$request->name;
+    	$manufacturer->description=$request->description;
+    	$manufacturer->created_by=Auth::id();
+    	$manufacturer->updated_by=Auth::id();
+    	$manufacturer->is_active=1;
+    	$result= $manufacturer->save();
+    	
+		if($result){
+			return back()->with('success', 'Record added successfully!');
+		}
+		else{
+			return back()->with('error', 'Something went wrong!');
+		}
     }
-    public function save(Request $request)
+    
+    public function show($id)
     {
-		return redirect()->back();
+    	$manufacturer = Manufacturer::find($id);
+		return view('manufactureres.view')->with('manufacturer',$manufacturer);
     }
-    public function view($id)
-    {
-		return view('manufacturers/view');
-    }
+    
     public function edit($id)
     {
-		return view('manufacturers/edit');
+    	$manufacturer = Manufacturer::find($id);
+		return view('manufactureres/edit')->with('manufacturer',$manufacturer);;
     }
+    
     public function update(Request $request,$id)
     {
-		return redirect()->back();
+    	$this->validate($request, [
+        	'name'=>'required',
+        ]);
+        
+    	$manufacturer = Manufacturer::find($id);
+    	$manufacturer->name=$request->name;
+    	$manufacturer->description=$request->description;
+    	$manufacturer->updated_by=1;
+    	$result = $manufacturer->save();
+    	
+		if($result){
+			return back()->with('success', 'Record updated successfully!');
+		}
+		else{
+			return back()->with('error', 'Something went wrong!');
+		}
     }
-    public function delete($id)
+    
+    public function destroy($id)
     {
-		return redirect()->back();
+    	$result = Manufacturer::find($id)->delete();
+        
+		if($result){
+			return back()->with('success','Record deleted successfully!');
+		}
+		else{
+			return back()->with('error','Something went wrong!');
+		}
     }
 }

@@ -10,36 +10,80 @@ use App\Category;
 
 class CategoryController extends Controller
 {
-    public function __construct()
+     public function index()
     {
-		$this->category = new Category();
+    	$category = Category::all();
+		return view('categories.list')->with('category',$category);
     }
-    public function index()
+    
+    public function create()
     {
-		return view('categories/list');
+		return view('categories.add');
     }
-    public function add()
+    
+    public function store(Request $request)
     {
-		return view('categories/add');
+    	$this->validate($request, [
+        	'name'=>'required'
+        ]);
+    	
+    	$category = new category;
+    	$category->name=$request->name;
+    	$category->description=$request->description;
+    	$category->created_by=Auth::id();
+    	$category->updated_by=Auth::id();
+    	$category->is_active=1;
+    	$result= $category->save();
+    	
+		if($result){
+			return back()->with('success', 'Record added successfully!');
+		}
+		else{
+			return back()->with('error', 'Something went wrong!');
+		}
     }
-    public function save(Request $request)
+    
+    public function show($id)
     {
-		return redirect()->back();
+    	$category = Category::find($id);
+		return view('categories.view')->with('category',$category);
     }
-    public function view($id)
-    {
-		return view('categories/view');
-    }
+    
     public function edit($id)
     {
-		return view('categories/edit');
+    	$category = Category::find($id);
+		return view('categories/edit')->with('category',$category);;
     }
+    
     public function update(Request $request,$id)
     {
-		return redirect()->back();
+    	$this->validate($request, [
+        	'name'=>'required',
+        ]);
+        
+    	$category = Category::find($id);
+    	$category->name=$request->name;
+    	$category->description=$request->description;
+    	$category->updated_by=1;
+    	$result = $category->save();
+    	
+		if($result){
+			return back()->with('success', 'Record updated successfully!');
+		}
+		else{
+			return back()->with('error', 'Something went wrong!');
+		}
     }
-    public function delete($id)
+    
+    public function destroy($id)
     {
-		return redirect()->back();
+    	$result = Category::find($id)->delete();
+        
+		if($result){
+			return back()->with('success','Record deleted successfully!');
+		}
+		else{
+			return back()->with('error','Something went wrong!');
+		}
     }
 }

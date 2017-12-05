@@ -10,36 +10,80 @@ use App\OpeningStock;
 
 class OpeningStockController extends Controller
 {
-    public function __construct()
+     public function index()
     {
-		$this->openingstock = new OpeningStock();
+    	$openingstock = OpeningStock::all();
+		return view('openingstockes.list')->with('openingstock',$openingstock);
     }
-    public function index()
+    
+    public function create()
     {
-		return view('openingstocks/list');
+		return view('openingstockes.add');
     }
-    public function add()
+    
+    public function store(Request $request)
     {
-		return view('openingstocks/add');
+    	$this->validate($request, [
+        	'name'=>'required'
+        ]);
+    	
+    	$openingstock = new openingstock;
+    	$openingstock->name=$request->name;
+    	$openingstock->description=$request->description;
+    	$openingstock->created_by=Auth::id();
+    	$openingstock->updated_by=Auth::id();
+    	$openingstock->is_active=1;
+    	$result= $openingstock->save();
+    	
+		if($result){
+			return back()->with('success', 'Record added successfully!');
+		}
+		else{
+			return back()->with('error', 'Something went wrong!');
+		}
     }
-    public function save(Request $request)
+    
+    public function show($id)
     {
-		return redirect()->back();
+    	$openingstock = OpeningStock::find($id);
+		return view('openingstockes.view')->with('openingstock',$openingstock);
     }
-    public function view($id)
-    {
-		return view('openingstocks/view');
-    }
+    
     public function edit($id)
     {
-		return view('openingstocks/edit');
+    	$openingstock = OpeningStock::find($id);
+		return view('openingstockes/edit')->with('openingstock',$openingstock);;
     }
+    
     public function update(Request $request,$id)
     {
-		return redirect()->back();
+    	$this->validate($request, [
+        	'name'=>'required',
+        ]);
+        
+    	$openingstock = OpeningStock::find($id);
+    	$openingstock->name=$request->name;
+    	$openingstock->description=$request->description;
+    	$openingstock->updated_by=1;
+    	$result = $openingstock->save();
+    	
+		if($result){
+			return back()->with('success', 'Record updated successfully!');
+		}
+		else{
+			return back()->with('error', 'Something went wrong!');
+		}
     }
-    public function delete($id)
+    
+    public function destroy($id)
     {
-		return redirect()->back();
+    	$result = OpeningStock::find($id)->delete();
+        
+		if($result){
+			return back()->with('success','Record deleted successfully!');
+		}
+		else{
+			return back()->with('error','Something went wrong!');
+		}
     }
 }

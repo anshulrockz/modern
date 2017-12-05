@@ -10,36 +10,80 @@ use App\Form;
 
 class FormController extends Controller
 {
-    public function __construct()
+     public function index()
     {
-		$this->form = new Form();
+    	$form = Form::all();
+		return view('formes.list')->with('form',$form);
     }
-    public function index()
+    
+    public function create()
     {
-		return view('forms/list');
+		return view('formes.add');
     }
-    public function add()
+    
+    public function store(Request $request)
     {
-		return view('forms/add');
+    	$this->validate($request, [
+        	'name'=>'required'
+        ]);
+    	
+    	$form = new form;
+    	$form->name=$request->name;
+    	$form->description=$request->description;
+    	$form->created_by=Auth::id();
+    	$form->updated_by=Auth::id();
+    	$form->is_active=1;
+    	$result= $form->save();
+    	
+		if($result){
+			return back()->with('success', 'Record added successfully!');
+		}
+		else{
+			return back()->with('error', 'Something went wrong!');
+		}
     }
-    public function save(Request $request)
+    
+    public function show($id)
     {
-		return redirect()->back();
+    	$form = Form::find($id);
+		return view('formes.view')->with('form',$form);
     }
-    public function view($id)
-    {
-		return view('forms/view');
-    }
+    
     public function edit($id)
     {
-		return view('forms/edit');
+    	$form = Form::find($id);
+		return view('formes/edit')->with('form',$form);;
     }
+    
     public function update(Request $request,$id)
     {
-		return redirect()->back();
+    	$this->validate($request, [
+        	'name'=>'required',
+        ]);
+        
+    	$form = Form::find($id);
+    	$form->name=$request->name;
+    	$form->description=$request->description;
+    	$form->updated_by=1;
+    	$result = $form->save();
+    	
+		if($result){
+			return back()->with('success', 'Record updated successfully!');
+		}
+		else{
+			return back()->with('error', 'Something went wrong!');
+		}
     }
-    public function delete($id)
+    
+    public function destroy($id)
     {
-		return redirect()->back();
+    	$result = Form::find($id)->delete();
+        
+		if($result){
+			return back()->with('success','Record deleted successfully!');
+		}
+		else{
+			return back()->with('error','Something went wrong!');
+		}
     }
 }

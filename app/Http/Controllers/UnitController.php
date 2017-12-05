@@ -12,9 +12,7 @@ class UnitController extends Controller
 {
     public function index()
     {
-    	//$unit= $this->unit::where('status', 1)->orderby('id','asc')->get();
-    	//return view('units/list', ['unit' => $unit])
-    	$unit= Unit::all();
+    	$unit = Unit::all();
 		return view('units.list')->with('unit',$unit);
     }
     
@@ -29,17 +27,14 @@ class UnitController extends Controller
         	'name'=>'required'
         ]);
     	
-    	$unit=new Unit;
-    	$unit->name=$request->name ;					//Alternate:- input('name')
+    	$unit = new Unit;
+    	$unit->name=$request->name;
     	$unit->description=$request->description;
-    	$unit->created_by=1;
-    	$unit->updated_by=1;
+    	$unit->created_by=Auth::id();
+    	$unit->updated_by=Auth::id();
     	$unit->is_active=1;
     	$result= $unit->save();
     	
-    	//Get last inserted id.
-    	//echo $insertedId = $unit->id;
-		
 		if($result){
 			return back()->with('success', 'Record added successfully!');
 		}
@@ -67,7 +62,7 @@ class UnitController extends Controller
         ]);
         
     	$unit = Unit::find($id);
-    	$unit->name=$request->name;					//Alternate:- input('name')
+    	$unit->name=$request->name;
     	$unit->description=$request->description;
     	$unit->updated_by=1;
     	$result = $unit->save();
@@ -82,7 +77,6 @@ class UnitController extends Controller
     
     public function destroy($id)
     {
-    	//Unit::destroy($id);
     	$result = Unit::find($id)->delete();
         
 		if($result){

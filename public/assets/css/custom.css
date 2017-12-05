@@ -1,5 +1,5 @@
 /* Write your custom CSS here */
-.form-custom{
-	border-top: 1px solid #eef1f5;
-    padding-top: 20px;
+
+.dataTables_wrapper{
+	margin-top: 10px;
 }

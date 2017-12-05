@@ -2,6 +2,7 @@
 @section('content')
 <!-- BEGIN CONTENT -->
 <div class="page-title">
+    <h3>Units</h3>
     <div class="page-breadcrumb">
         <ol class="breadcrumb">
             <li><a href="{{url('/')}}">Home</a></li>
@@ -17,10 +18,10 @@
     		@include('flashmessage')
     		<div class="panel panel-white">
                 <div class="panel-heading clearfix">
-                    <h4 class="panel-title">Add</h4>
+                    <h4 class="panel-title">Add Unit</h4>
                 </div>
                 <div class="panel-body">
-		    		<form class="form-custom" method="post" action="{{route('units.store')}}">
+		    		<form method="post" action="{{route('units.store')}}">
 		                <div class="form-body">
 		                    {{ csrf_field() }}
 						    <div class="form-group">

@@ -10,36 +10,80 @@ use App\Customer;
 
 class CustomerController extends Controller
 {
-    public function __construct()
+     public function index()
     {
-		$this->customer = new Customer();
+    	$customer = Customer::all();
+		return view('customeres.list')->with('customer',$customer);
     }
-    public function index()
+    
+    public function create()
     {
-		return view('customers/list');
+		return view('customeres.add');
     }
-    public function add()
+    
+    public function store(Request $request)
     {
-		return view('customers/add');
+    	$this->validate($request, [
+        	'name'=>'required'
+        ]);
+    	
+    	$customer = new customer;
+    	$customer->name=$request->name;
+    	$customer->description=$request->description;
+    	$customer->created_by=Auth::id();
+    	$customer->updated_by=Auth::id();
+    	$customer->is_active=1;
+    	$result= $customer->save();
+    	
+		if($result){
+			return back()->with('success', 'Record added successfully!');
+		}
+		else{
+			return back()->with('error', 'Something went wrong!');
+		}
     }
-    public function save(Request $request)
+    
+    public function show($id)
     {
-		return redirect()->back();
+    	$customer = Customer::find($id);
+		return view('customeres.view')->with('customer',$customer);
     }
-    public function view($id)
-    {
-		return view('customers/view');
-    }
+    
     public function edit($id)
     {
-		return view('customers/edit');
+    	$customer = Customer::find($id);
+		return view('customeres/edit')->with('customer',$customer);;
     }
+    
     public function update(Request $request,$id)
     {
-		return redirect()->back();
+    	$this->validate($request, [
+        	'name'=>'required',
+        ]);
+        
+    	$customer = Customer::find($id);
+    	$customer->name=$request->name;
+    	$customer->description=$request->description;
+    	$customer->updated_by=1;
+    	$result = $customer->save();
+    	
+		if($result){
+			return back()->with('success', 'Record updated successfully!');
+		}
+		else{
+			return back()->with('error', 'Something went wrong!');
+		}
     }
-    public function delete($id)
+    
+    public function destroy($id)
     {
-		return redirect()->back();
+    	$result = Customer::find($id)->delete();
+        
+		if($result){
+			return back()->with('success','Record deleted successfully!');
+		}
+		else{
+			return back()->with('error','Something went wrong!');
+		}
     }
 }

@@ -10,36 +10,80 @@ use App\Firm;
 
 class FirmController extends Controller
 {
-    public function __construct()
+     public function index()
     {
-		$this->firm = new Firm();
+    	$firm = Firm::all();
+		return view('firmes.list')->with('firm',$firm);
     }
-    public function index()
+    
+    public function create()
     {
-		return view('firms/list');
+		return view('firmes.add');
     }
-    public function add()
+    
+    public function store(Request $request)
     {
-		return view('firms/add');
+    	$this->validate($request, [
+        	'name'=>'required'
+        ]);
+    	
+    	$firm = new firm;
+    	$firm->name=$request->name;
+    	$firm->description=$request->description;
+    	$firm->created_by=Auth::id();
+    	$firm->updated_by=Auth::id();
+    	$firm->is_active=1;
+    	$result= $firm->save();
+    	
+		if($result){
+			return back()->with('success', 'Record added successfully!');
+		}
+		else{
+			return back()->with('error', 'Something went wrong!');
+		}
     }
-    public function save(Request $request)
+    
+    public function show($id)
     {
-		return redirect()->back();
+    	$firm = Firm::find($id);
+		return view('firmes.view')->with('firm',$firm);
     }
-    public function view($id)
-    {
-		return view('firms/view');
-    }
+    
     public function edit($id)
     {
-		return view('firms/edit');
+    	$firm = Firm::find($id);
+		return view('firmes/edit')->with('firm',$firm);;
     }
+    
     public function update(Request $request,$id)
     {
-		return redirect()->back();
+    	$this->validate($request, [
+        	'name'=>'required',
+        ]);
+        
+    	$firm = Firm::find($id);
+    	$firm->name=$request->name;
+    	$firm->description=$request->description;
+    	$firm->updated_by=1;
+    	$result = $firm->save();
+    	
+		if($result){
+			return back()->with('success', 'Record updated successfully!');
+		}
+		else{
+			return back()->with('error', 'Something went wrong!');
+		}
     }
-    public function delete($id)
+    
+    public function destroy($id)
     {
-		return redirect()->back();
+    	$result = Firm::find($id)->delete();
+        
+		if($result){
+			return back()->with('success','Record deleted successfully!');
+		}
+		else{
+			return back()->with('error','Something went wrong!');
+		}
     }
 }

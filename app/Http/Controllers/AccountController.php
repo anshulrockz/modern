@@ -10,36 +10,80 @@ use App\Account;
 
 class AccountController extends Controller
 {
-    public function __construct()
-    {
-		$this->account = new Account();
-    }
     public function index()
     {
-		return view('accounts/list');
+    	$account = Account::all();
+		return view('accounts.list')->with('account',$account);
     }
-    public function add()
+    
+    public function create()
     {
-		return view('accounts/add');
+		return view('accounts.add');
     }
-    public function save(Request $request)
+    
+    public function store(Request $request)
     {
-		return redirect()->back();
+    	$this->validate($request, [
+        	'name'=>'required'
+        ]);
+    	
+    	$account = new account;
+    	$account->name=$request->name;
+    	$account->description=$request->description;
+    	$account->created_by=Auth::id();
+    	$account->updated_by=Auth::id();
+    	$account->is_active=1;
+    	$result= $account->save();
+    	
+		if($result){
+			return back()->with('success', 'Record added successfully!');
+		}
+		else{
+			return back()->with('error', 'Something went wrong!');
+		}
     }
-    public function view($id)
+    
+    public function show($id)
     {
-		return view('accounts/view');
+    	$account = Account::find($id);
+		return view('accounts.view')->with('account',$account);
     }
+    
     public function edit($id)
     {
-		return view('accounts/edit');
+    	$account = Account::find($id);
+		return view('accounts/edit')->with('account',$account);;
     }
+    
     public function update(Request $request,$id)
     {
-		return redirect()->back();
+    	$this->validate($request, [
+        	'name'=>'required',
+        ]);
+        
+    	$account = Account::find($id);
+    	$account->name=$request->name;
+    	$account->description=$request->description;
+    	$account->updated_by=1;
+    	$result = $account->save();
+    	
+		if($result){
+			return back()->with('success', 'Record updated successfully!');
+		}
+		else{
+			return back()->with('error', 'Something went wrong!');
+		}
     }
-    public function delete($id)
+    
+    public function destroy($id)
     {
-		return redirect()->back();
+    	$result = Account::find($id)->delete();
+        
+		if($result){
+			return back()->with('success','Record deleted successfully!');
+		}
+		else{
+			return back()->with('error','Something went wrong!');
+		}
     }
 }

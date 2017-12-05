@@ -36,7 +36,7 @@
         <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
         <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
         <![endif]-->
-        
+        <script src="{{asset('assets/plugins/jquery/jquery-2.1.4.min.js')}}"></script>
     </head>
     <body class="page-header-fixed page-sidebar-fixed">
         <div class="overlay"></div>
@@ -370,8 +370,22 @@
                                 <li><a href="{{ url('/manufacturers') }}">Manufacturers</a></li>
                                 <li><a href="{{ url('/forms') }}">Forms</a></li>
                                 <li><a href="{{ url('/units') }}">Units</a></li>
-                                <li><a href="{{ url('/taxes') }}/taxes">Taxes</a></li>
+                                <li><a href="{{ url('/taxes') }}">Taxes</a></li>
                                 <li><a href="{{ url('/opening-stocks') }}">Opening Stocks</a></li>
+                            </ul>
+                        </li>
+                        <li class="droplink"><a href="#" class="waves-effect waves-button"><span class="menu-icon glyphicon glyphicon-gift"></span><p>Firm</p><span class="arrow"></span></a>
+                            <ul class="sub-menu">
+                                <li><a href="{{ url('/firms') }}">Firms</a></li>
+                                <li><a href="{{ url('/terms') }}">Terms & Conditions</a></li>
+                                <li><a href="{{ url('/bank-details') }}">Bank Details</a></li>
+                            </ul>
+                        </li>
+                        <li class="droplink"><a href="#" class="waves-effect waves-button"><span class="menu-icon glyphicon glyphicon-gift"></span><p>Account</p><span class="arrow"></span></a>
+                            <ul class="sub-menu">
+                                <li><a href="{{ url('/accounts') }}">Accounts</a></li>
+                                <li><a href="{{ url('/expenses') }}">Expenses</a></li>
+                                <li><a href="{{ url('/incomes') }}">Incomes</a></li>
                             </ul>
                         </li>
                         <li class="droplink"><a href="#" class="waves-effect waves-button"><span class="menu-icon glyphicon glyphicon-list"></span><p>Tables</p><span class="arrow"></span></a>
@@ -409,7 +423,6 @@
 	
 
         <!-- Javascripts -->
-        <script src="{{asset('assets/plugins/jquery/jquery-2.1.4.min.js')}}"></script>
         <script src="{{asset('assets/plugins/jquery-ui/jquery-ui.min.js')}}"></script>
         <script src="{{asset('assets/plugins/pace-master/pace.min.js')}}"></script>
         <script src="{{asset('assets/plugins/jquery-blockui/jquery.blockui.js')}}"></script>

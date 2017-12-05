@@ -74,3 +74,6 @@ Route::get('/', function () {
 	//Incomes
 	Route::resource('/incomes','IncomeController');
 	
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

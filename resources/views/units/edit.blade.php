@@ -1,6 +1,7 @@
 @extends('layouts.app')
 @section('content')
 <div class="page-title">
+    <h3>Units</h3>
     <div class="page-breadcrumb">
         <ol class="breadcrumb">
             <li><a href="{{url('/')}}">Home</a></li>
@@ -17,10 +18,10 @@
     		@include('flashmessage')
     		<div class="panel panel-white">
                 <div class="panel-heading clearfix">
-                    <h4 class="panel-title">Edit</h4>
+                    <h4 class="panel-title">Edit Unit</h4>
                 </div>
                 <div class="panel-body">
-		    		<form class="form-custom" method="post" action="{{route('units.update',$unit->id)}}">
+		    		<form method="post" action="{{route('units.update',$unit->id)}}">
 		                <div class="form-body">
 	                            {{ csrf_field() }}
 	                            {{ method_field('PUT') }}

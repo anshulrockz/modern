@@ -10,36 +10,80 @@ use App\Tax;
 
 class TaxController extends Controller
 {
-    public function __construct()
-    {
-		$this->tax = new Tax();
-    }
     public function index()
     {
-		return view('taxes/list');
+    	$tax = Tax::all();
+		return view('taxes.list')->with('tax',$tax);
     }
-    public function add()
+    
+    public function create()
     {
-		return view('taxes/add');
+		return view('taxes.add');
     }
-    public function save(Request $request)
+    
+    public function store(Request $request)
     {
-		return redirect()->back();
+    	$this->validate($request, [
+        	'name'=>'required'
+        ]);
+    	
+    	$tax = new tax;
+    	$tax->name=$request->name;
+    	$tax->description=$request->description;
+    	$tax->created_by=Auth::id();
+    	$tax->updated_by=Auth::id();
+    	$tax->is_active=1;
+    	$result= $tax->save();
+    	
+		if($result){
+			return back()->with('success', 'Record added successfully!');
+		}
+		else{
+			return back()->with('error', 'Something went wrong!');
+		}
     }
-    public function view($id)
+    
+    public function show($id)
     {
-		return view('taxes/view');
+    	$tax = Tax::find($id);
+		return view('taxes.view')->with('tax',$tax);
     }
+    
     public function edit($id)
     {
-		return view('taxes/edit');
+    	$tax = Tax::find($id);
+		return view('taxes/edit')->with('tax',$tax);;
     }
+    
     public function update(Request $request,$id)
     {
-		return redirect()->back();
+    	$this->validate($request, [
+        	'name'=>'required',
+        ]);
+        
+    	$tax = Tax::find($id);
+    	$tax->name=$request->name;
+    	$tax->description=$request->description;
+    	$tax->updated_by=1;
+    	$result = $tax->save();
+    	
+		if($result){
+			return back()->with('success', 'Record updated successfully!');
+		}
+		else{
+			return back()->with('error', 'Something went wrong!');
+		}
     }
-    public function delete($id)
+    
+    public function destroy($id)
     {
-		return redirect()->back();
+    	$result = Tax::find($id)->delete();
+        
+		if($result){
+			return back()->with('success','Record deleted successfully!');
+		}
+		else{
+			return back()->with('error','Something went wrong!');
+		}
     }
 }

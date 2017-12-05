@@ -10,36 +10,80 @@ use App\Term;
 
 class TermController extends Controller
 {
-    public function __construct()
+     public function index()
     {
-		$this->term = new Term();
+    	$term = Term::all();
+		return view('termes.list')->with('term',$term);
     }
-    public function index()
+    
+    public function create()
     {
-		return view('terms/list');
+		return view('termes.add');
     }
-    public function add()
+    
+    public function store(Request $request)
     {
-		return view('terms/add');
+    	$this->validate($request, [
+        	'name'=>'required'
+        ]);
+    	
+    	$term = new term;
+    	$term->name=$request->name;
+    	$term->description=$request->description;
+    	$term->created_by=Auth::id();
+    	$term->updated_by=Auth::id();
+    	$term->is_active=1;
+    	$result= $term->save();
+    	
+		if($result){
+			return back()->with('success', 'Record added successfully!');
+		}
+		else{
+			return back()->with('error', 'Something went wrong!');
+		}
     }
-    public function save(Request $request)
+    
+    public function show($id)
     {
-		return redirect()->back();
+    	$term = Term::find($id);
+		return view('termes.view')->with('term',$term);
     }
-    public function view($id)
-    {
-		return view('terms/view');
-    }
+    
     public function edit($id)
     {
-		return view('terms/edit');
+    	$term = Term::find($id);
+		return view('termes/edit')->with('term',$term);;
     }
+    
     public function update(Request $request,$id)
     {
-		return redirect()->back();
+    	$this->validate($request, [
+        	'name'=>'required',
+        ]);
+        
+    	$term = Term::find($id);
+    	$term->name=$request->name;
+    	$term->description=$request->description;
+    	$term->updated_by=1;
+    	$result = $term->save();
+    	
+		if($result){
+			return back()->with('success', 'Record updated successfully!');
+		}
+		else{
+			return back()->with('error', 'Something went wrong!');
+		}
     }
-    public function delete($id)
+    
+    public function destroy($id)
     {
-		return redirect()->back();
+    	$result = Term::find($id)->delete();
+        
+		if($result){
+			return back()->with('success','Record deleted successfully!');
+		}
+		else{
+			return back()->with('error','Something went wrong!');
+		}
     }
 }
