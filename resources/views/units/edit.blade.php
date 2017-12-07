@@ -15,7 +15,7 @@
     <div class="row">
     	<!--Content Here-->
     	<div class="col-md-6">
-    		@include('flashmessage')
+    		@include('layouts.flashmessage')
     		<div class="panel panel-white">
                 <div class="panel-heading clearfix">
                     <h4 class="panel-title">Edit Unit</h4>
@@ -32,6 +32,14 @@
 							    <div class="form-group">
 							      <label>Description:</label>
 							      <textarea class="form-control" name="description" id="description" placeholder="Please Enter Description">{{ $unit->description }}</textarea>
+							    </div>
+							    <div class="form-group">
+							      <label>Status:</label>
+							      	@if($unit->is_active==1)
+				                		<span  class="stts btn btn-success btn-sm">Active</span>
+				                	@else
+				                		<span  class="stts btn btn-warning btn-sm">deactive</span>
+			                		@endif
 							    </div>
 	                        </div>
 	                        <div class="form-actions">

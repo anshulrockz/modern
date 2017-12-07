@@ -8,7 +8,7 @@
     <div class="page-breadcrumb">
         <ol class="breadcrumb">
             <li><a href="{{ url('/') }}">Home</a></li>
-            <li class="active">taxes</li>
+            <li class="active">Taxes</li>
         </ol>
     </div>
 </div>
@@ -17,15 +17,13 @@
         <div class="col-md-12">
         	<div class="panel panel-white">
                 <div class="panel-heading clearfix">
-		                <h3 class="panel-title">taxes</h3>
+		                <h3 class="panel-title">all taxes</h3>
 		                <div class="panel-control">
-                            <a href="{{ url('/taxes/create') }}" class="pull-right btn btn-info">
-		                        <i class="fa fa-plus"></i> Add New
-		                    </a>
+                            <a href="{{ url('/units/create') }}"><button class="btn btn-info btn-addon m-b-sm btn-sm"><i class="fa fa-plus"></i> Add New</button></a>
                         </div>
                 </div>
                 
-		            @include('flashmessage')
+		            @include('layouts.flashmessage')
                     <div class="panel-body">
                     	<div class="table-responsive">
                         <table class="display table" id="dataTable">
@@ -33,17 +31,26 @@
                                 <tr>
                                     <th>#</th>
                                     <th>Name</th>
+                                    <th>Rate(%)</th>
                                     <th>Description</th>
+                                    <th style="width:50px">Status</th>
                                     <th style="width:230px">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                            	@if(count($tax)>0)
 								@foreach($tax as $tax)
                                 <tr>
                                     <td>{{ $tax->id }}</td>
                                     <td>{{ $tax->name }}</td>
+                                    <td>{{ $tax->rate }}</td>
                                     <td>{{ $tax->description }}</td>
+                                    <td>
+                                    	@if($tax->is_active==1)
+                                    		<span  class="stts btn btn-success btn-sm">Active</span>
+                                    	@else
+                                    		<span  class="stts btn btn-warning btn-sm">Deactive</span>
+                                    	@endif
+                                    </td>
                                     <td>
                                         <a href="{{ url('/taxes/'.$tax->id)}}" class="btn btn-sm btn-success">
                                             <i class="fa fa-eye"></i> View
@@ -59,11 +66,6 @@
                                     </td>
                                 </tr>
                                 @endforeach
-								@else
-									<tr>
-										<td colspan="4">No data found</td>
-									</tr>
-								@endif
                             </tbody>
                         </table>
                     </div>

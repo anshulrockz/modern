@@ -24,7 +24,7 @@ class UnitController extends Controller
     public function store(Request $request)
     {
     	$this->validate($request, [
-        	'name'=>'required'
+       	'name'=>'required'
         ]);
     	
     	$unit = new Unit;
@@ -33,20 +33,27 @@ class UnitController extends Controller
     	$unit->created_by=Auth::id();
     	$unit->updated_by=Auth::id();
     	$unit->is_active=1;
-    	$result= $unit->save();
-    	
-		if($result){
-			return back()->with('success', 'Record added successfully!');
-		}
-		else{
-			return back()->with('error', 'Something went wrong!');
-		}
+        try{
+	        $result= $unit->save();
+	        return back()->with('success', 'Record added successfully!');
+	    }
+	    catch (\Exception $e){
+	        $error = $e->errorInfo[1];
+	        return back()->with('error', 'Something went wrong! (error code:'.$error.')');
+	    }
     }
     
     public function show($id)
     {
-    	$unit = Unit::find($id);
-		return view('units.view')->with('unit',$unit);
+    	try{
+	        $unit = Unit::find($id);
+			return view('units.view')->with('unit',$unit);
+	    }
+	    catch (\Exception $e){
+	        $error = $e->errorInfo[1];
+	        return back()->with('error', 'Something went wrong! (error code:'.$error.')');
+	    }
+    	
     }
     
     public function edit($id)
@@ -60,30 +67,27 @@ class UnitController extends Controller
     	$this->validate($request, [
         	'name'=>'required',
         ]);
-        
     	$unit = Unit::find($id);
     	$unit->name=$request->name;
     	$unit->description=$request->description;
-    	$unit->updated_by=1;
-    	$result = $unit->save();
-    	
-		if($result){
-			return back()->with('success', 'Record updated successfully!');
-		}
-		else{
-			return back()->with('error', 'Something went wrong!');
-		}
+    	$unit->updated_by=Auth::id();
+    	try{
+	        $result= $unit->save();
+	        return back()->with('success', 'Record added successfully!');
+	    }
+	    catch (\Exception $e){
+	        $error = $e->errorInfo[1];
+	        return back()->with('error', 'Something went wrong! (error code:'.$error.')');
+	    }
     }
     
     public function destroy($id)
     {
     	$result = Unit::find($id)->delete();
-        
-		if($result){
+		if($result)
 			return back()->with('success','Record deleted successfully!');
-		}
-		else{
+		else
 			return back()->with('error','Something went wrong!');
-		}
-    }
+	}
+	
 }

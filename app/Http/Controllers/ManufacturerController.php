@@ -13,12 +13,12 @@ class ManufacturerController extends Controller
      public function index()
     {
     	$manufacturer = Manufacturer::all();
-		return view('manufactureres.list')->with('manufacturer',$manufacturer);
+		return view('manufacturers.list')->with('manufacturer',$manufacturer);
     }
     
     public function create()
     {
-		return view('manufactureres.add');
+		return view('manufacturers.add');
     }
     
     public function store(Request $request)
@@ -46,13 +46,13 @@ class ManufacturerController extends Controller
     public function show($id)
     {
     	$manufacturer = Manufacturer::find($id);
-		return view('manufactureres.view')->with('manufacturer',$manufacturer);
+		return view('manufacturers.view')->with('manufacturer',$manufacturer);
     }
     
     public function edit($id)
     {
     	$manufacturer = Manufacturer::find($id);
-		return view('manufactureres/edit')->with('manufacturer',$manufacturer);;
+		return view('manufacturers/edit')->with('manufacturer',$manufacturer);;
     }
     
     public function update(Request $request,$id)

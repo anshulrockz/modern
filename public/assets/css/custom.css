@@ -3,3 +3,12 @@
 .dataTables_wrapper{
 	margin-top: 10px;
 }
+
+.stts{
+	cursor: text;
+	border-radius: 2em;
+}
+
+.stts:hover{
+	cursor: text;
+}

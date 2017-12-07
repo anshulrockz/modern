@@ -16,7 +16,7 @@ class ChangepasswordController extends Controller
     {
 		return view('changepassword');
     }
-    public function save(Request $request)
+    public function update(Request $request)
     {
 		$old_password = $request->input('old_password');
 		$password = $request->input('password');
@@ -34,12 +34,12 @@ class ChangepasswordController extends Controller
 		
 		if(Hash::check($old_password, $oldpassword_db)){
 			$new_password = Hash::make($password);
-			DB::update('update users set password = ?,updated_at = ? where id = ?',[$new_password,$updated_at,$user_id]);
+			//DB::update('update users set password = ?,updated_at = ? where id = ?',[$new_password,$updated_at,$user_id]);
 			$request->session()->flash('success', 'Your password has been changed successfully.');
 		}
 		else{
 			$request->session()->flash('error', 'Old Password does not match the record.');
 		}
-    	return redirect()->back();
+    	return back();
     }
 }

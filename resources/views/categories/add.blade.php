@@ -15,7 +15,7 @@
     <div class="row">
     	<!--Content Here-->
     	<div class="col-md-6">
-    		@include('flashmessage')
+    		@include('layouts.flashmessage')
     		<div class="panel panel-white">
                 <div class="panel-heading clearfix">
                     <h4 class="panel-title">Add Categories</h4>

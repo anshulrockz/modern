@@ -25,6 +25,14 @@
 						      <td>{{ $tax->name }}</td>
 						    </tr>
 						    <tr>
+						      <th>Rate(%)</th>
+						      <td>{{ $tax->rate }}</td>
+						    </tr>
+						    <tr>
+						      <th>Effective From</th>
+						      <td>{{ $tax->effective_from }}</td>
+						    </tr>
+						    <tr>
 						      <th>Description</th>
 						      <td>{{ $tax->description }}</td>
 						    </tr>

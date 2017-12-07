@@ -5,8 +5,8 @@
     <div class="page-breadcrumb">
         <ol class="breadcrumb">
             <li><a href="{{url('/')}}">Home</a></li>
-            <li><a href="#">Layouts</a></li>
-            <li class="active">Fixed Sidebar</li>
+            <li><a href="#">Modern</a></li>
+            <li class="active">Inventry System</li>
         </ol>
     </div>
 </div>

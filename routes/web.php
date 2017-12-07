@@ -12,24 +12,35 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    if(Auth::check()){
+        return view('welcome');
+    }
+    else{
+        return redirect()->action('LoginController@index');
+    }
 });
 
-//Dashboard
-	Route::get('/','WelcomeController@index');
+Route::get('login', [ 'as' => 'login', 'uses' => 'LoginController@index']);
+Route::post('login', [ 'as' => 'login', 'uses' => 'LoginController@login']);
 
-	//Edit Profile
-	Route::get('/edit-profile','EditprofileController@index');
-	Route::post('/edit-profile','EditprofileController@save');
+Route::group(['middleware' => 'auth'], function () {
+    
+    //Edit Profile
+	Route::get('/profile','ProfileController@index');
+	Route::get('/profile/edit','ProfileController@edit');
+	Route::post('/profile/edit','ProfileController@update');
 	
 	//Change password
 	Route::get('/change-password','ChangepasswordController@index');
-	Route::post('/change-password','ChangepasswordController@save');
+	Route::post('/change-password','ChangepasswordController@update');
 	
-	//Logout
-	Route::get('/logout','LoginController@logout');
-	
-	//Customers
+    //Logout
+    Route::get('/logout', function () {
+        Auth::logout();
+        return redirect('/');
+    });
+    
+    //Customers
 	Route::resource('/customers','CustomerController');
 	
 	//Products
@@ -74,6 +85,4 @@ Route::get('/', function () {
 	//Incomes
 	Route::resource('/incomes','IncomeController');
 	
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
+});

@@ -28,6 +28,16 @@
 						      <th>Description</th>
 						      <td>{{ $unit->description }}</td>
 						    </tr>
+						    <tr>
+						      <th>Status</th>
+						      <td>
+								@if($unit->is_active==1)
+			                		<span  class="stts btn btn-success btn-sm">Active</span>
+			                	@else
+			                		<span  class="stts btn btn-warning btn-sm">deactive</span>
+		                		@endif
+						      </td>
+						    </tr>
 						  </tbody>
 						</table>
                     </div>

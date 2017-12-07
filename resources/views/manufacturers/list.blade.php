@@ -4,11 +4,11 @@
 <link href="{{asset('assets/plugins/datatables/css/jquery.datatables_themeroller.css')}}" rel="stylesheet" type="text/css"/>
 <!-- BEGIN CONTENT -->
 <div class="page-title">
-    <!--<h3>Units</h3>-->
+    <h3>Manufacturers</h3>
     <div class="page-breadcrumb">
         <ol class="breadcrumb">
             <li><a href="{{ url('/') }}">Home</a></li>
-            <li class="active">Units</li>
+            <li class="active">Manufacturers</li>
         </ol>
     </div>
 </div>
@@ -17,41 +17,45 @@
         <div class="col-md-12">
         	<div class="panel panel-white">
                 <div class="panel-heading clearfix">
-		                <h3 class="panel-title">Units</h3>
+		                <h3 class="panel-title">all manufacturers</h3>
 		                <div class="panel-control">
-                            <a href="{{ url('/units/create') }}" class="pull-right btn btn-info">
-		                        <i class="fa fa-plus"></i> Add New
-		                    </a>
+                        	<a href="{{ url('/manufacturers/create') }}"><button class="btn btn-info btn-addon m-b-sm btn-sm"><i class="fa fa-plus"></i> Add New</button></a>
                         </div>
                 </div>
-                
-		            @include('flashmessage')
-                    <div class="panel-body">
-                    	<div class="table-responsive">
+                @include('layouts.flashmessage')
+                <div class="panel-body">
+                	<div class="table-responsive">
                         <table class="display table" id="dataTable">
                             <thead>
                                 <tr>
                                     <th>#</th>
                                     <th>Name</th>
                                     <th>Description</th>
-                                    <th style="width:230px">Action</th>
+                                    <th style="width:50px">Status</th>
+                                    <th style="width:250px">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                            	@if(count($unit)>0)
-								@foreach($unit as $unit)
+								@foreach($manufacturer as $manufacturer)
                                 <tr>
-                                    <td>{{ $unit->id }}</td>
-                                    <td>{{ $unit->name }}</td>
-                                    <td>{{ $unit->description }}</td>
+                                    <td>{{ $manufacturer->id }}</td>
+                                    <td>{{ $manufacturer->name }}</td>
+                                    <td>{{ $manufacturer->description }}</td>
                                     <td>
-                                        <a href="{{ url('/units/'.$unit->id)}}" class="btn btn-sm btn-success">
+                                    	@if($manufacturer->is_active==1)
+                                    		<span  class="stts btn btn-success btn-sm">Active</span>
+                                    	@else
+                                    		<span  class="stts btn btn-warning btn-sm">Deactive</span>
+                                    	@endif
+                                    </td>
+                                    <td>
+                                        <a href="{{ url('/manufacturers/'.$manufacturer->id)}}" class="btn btn-sm btn-primary">
                                             <i class="fa fa-eye"></i> View
                                         </a>
-                                        <a href="{{ url('/units/'.$unit->id.'/edit')}}" class="btn btn-sm btn-info">
+                                        <a href="{{ url('/manufacturers/'.$manufacturer->id.'/edit')}}" class="btn btn-sm btn-info">
                                             <i class="fa fa-pencil"></i> Edit
                                         </a>
-                                        <form style="display: inline;" method="post" action="{{route('units.destroy',$unit->id)}}">
+                                        <form style="display: inline;" method="post" action="{{route('manufacturers.destroy',$manufacturer->id)}}">
 					                        {{ csrf_field() }}
 					                        {{ method_field('DELETE') }}
 					                        <button onclick="return confirm('Are you sure you want to Delete?');" type="submit" class="btn btn-sm btn-danger">Delete</button>
@@ -59,11 +63,6 @@
                                     </td>
                                 </tr>
                                 @endforeach
-								@else
-									<tr>
-										<td colspan="4">No data found</td>
-									</tr>
-								@endif
                             </tbody>
                         </table>
                     </div>

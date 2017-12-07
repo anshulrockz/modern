@@ -4,11 +4,11 @@
 <link href="{{asset('assets/plugins/datatables/css/jquery.datatables_themeroller.css')}}" rel="stylesheet" type="text/css"/>
 <!-- BEGIN CONTENT -->
 <div class="page-title">
-    <!--<h3>Units</h3>-->
+    <h3>Products</h3>
     <div class="page-breadcrumb">
         <ol class="breadcrumb">
             <li><a href="{{ url('/') }}">Home</a></li>
-            <li class="active">Units</li>
+            <li class="active">Products</li>
         </ol>
     </div>
 </div>
@@ -17,15 +17,15 @@
         <div class="col-md-12">
         	<div class="panel panel-white">
                 <div class="panel-heading clearfix">
-		                <h3 class="panel-title">Units</h3>
+		                <h3 class="panel-title">all products</h3>
 		                <div class="panel-control">
-                            <a href="{{ url('/units/create') }}" class="pull-right btn btn-info">
+                            <a href="{{ url('/products/create') }}" class="pull-right btn btn-info">
 		                        <i class="fa fa-plus"></i> Add New
 		                    </a>
                         </div>
                 </div>
                 
-		            @include('flashmessage')
+		            @include('layouts.flashmessage')
                     <div class="panel-body">
                     	<div class="table-responsive">
                         <table class="display table" id="dataTable">
@@ -38,20 +38,19 @@
                                 </tr>
                             </thead>
                             <tbody>
-                            	@if(count($unit)>0)
-								@foreach($unit as $unit)
+								@foreach($product as $product)
                                 <tr>
-                                    <td>{{ $unit->id }}</td>
-                                    <td>{{ $unit->name }}</td>
-                                    <td>{{ $unit->description }}</td>
+                                    <td>{{ $product->id }}</td>
+                                    <td>{{ $product->name }}</td>
+                                    <td>{{ $product->description }}</td>
                                     <td>
-                                        <a href="{{ url('/units/'.$unit->id)}}" class="btn btn-sm btn-success">
+                                        <a href="{{ url('/products/'.$product->id)}}" class="btn btn-sm btn-success">
                                             <i class="fa fa-eye"></i> View
                                         </a>
-                                        <a href="{{ url('/units/'.$unit->id.'/edit')}}" class="btn btn-sm btn-info">
+                                        <a href="{{ url('/products/'.$product->id.'/edit')}}" class="btn btn-sm btn-info">
                                             <i class="fa fa-pencil"></i> Edit
                                         </a>
-                                        <form style="display: inline;" method="post" action="{{route('units.destroy',$unit->id)}}">
+                                        <form style="display: inline;" method="post" action="{{route('products.destroy',$product->id)}}">
 					                        {{ csrf_field() }}
 					                        {{ method_field('DELETE') }}
 					                        <button onclick="return confirm('Are you sure you want to Delete?');" type="submit" class="btn btn-sm btn-danger">Delete</button>
@@ -59,11 +58,6 @@
                                     </td>
                                 </tr>
                                 @endforeach
-								@else
-									<tr>
-										<td colspan="4">No data found</td>
-									</tr>
-								@endif
                             </tbody>
                         </table>
                     </div>

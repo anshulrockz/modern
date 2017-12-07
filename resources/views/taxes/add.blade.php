@@ -15,29 +15,39 @@
     <div class="row">
     	<!--Content Here-->
     	<div class="col-md-6">
-    		@include('flashmessage')
+    		@include('layouts.flashmessage')
     		<div class="panel panel-white">
                 <div class="panel-heading clearfix">
                     <h4 class="panel-title">Add Tax</h4>
                 </div>
                 <div class="panel-body">
-		    		<form class="form-custom" method="post" action="{{route('taxes.store')}}">
-		                <div class="form-body">
-		                    {{ csrf_field() }}
+                	<form method="post" action="{{route('taxes.store')}}">
+                        <div class="form-body">
+                            {{ csrf_field() }}
 						    <div class="form-group">
 						      <label>*Name:</label>
-						      <input type="text" class="form-control" name="name" id="name" value="{{ old('name') }}" placeholder="Please Enter Name" >
+						      <input type="text" class="form-control" name="name" id="name" value="{{ old('name') }}" placeholder="Please Enter Name" required="">
+						    </div>
+							<div class="form-group">
+						      <label>*Rate(%):</label>
+						      <input type="number" class="form-control" name="rate" id="rate" value="{{ old('rate') }}" placeholder="Please Enter Rate" required="">
 						    </div>
 						    <div class="form-group">
+							 <label>Effective From:</label>
+							 <div class="input-group date">
+							   <input type="text" name="effective_from" id="effective_from" value="{{ old('effective_from') }}" placeholder="Please Enter Effective From" class="form-control" required=""><span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+							 </div>
+							</div>
+						    <div class="form-group">
 						      <label>Description:</label>
-						      <textarea class="form-control" name="description" id="description" placeholder="Please Enter Description">{{ old('description') }}</textarea>
+						      <textarea class="form-control" name="description" id="description" placeholder="Please Enter Description" >{{ old('description') }}</textarea>
 						    </div>
-		                </div>
-		                <div class="form-actions">
+                        </div>
+	                    <div class="form-actions">
 		                    <button type="submit" class="btn btn-info">Save</button>
 		                    <button type="button" class="btn default" onclick="location.href = '{{url('/taxes')}}';">Cancel</button>
 		                </div>
-		            </form>
+	                </form>
 		        </div>
 		    </div>
     	</div>

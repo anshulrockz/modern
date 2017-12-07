@@ -10,14 +10,10 @@ use App\Http\Controllers\Controller;
 
 class LoginController extends Controller
 {
-    public function __construct()
-    {
-		
-    }
     public function index()
     {
 		if(Auth::check()){
-			return redirect()->action('WelcomeController@index');
+			return redirect('/');
 		}
 		else{
 			return view('login');
@@ -33,7 +29,7 @@ class LoginController extends Controller
 			'password'=>'required|min:6'
 		]);
 		if (Auth::attempt(['email' => $email, 'password' => $password], $remember)) {
-            return redirect()->action('WelcomeController@index');
+            return redirect('/');
         }
         else{
         	$request->session()->flash('error', 'Invalid E-mail or Password!');
@@ -43,6 +39,6 @@ class LoginController extends Controller
     public function logout()
     {
 		Auth::logout();
-		return redirect()->action('LoginController@index');
+		return redirect('/login');
     }
 }

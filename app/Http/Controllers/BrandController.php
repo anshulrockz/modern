@@ -13,12 +13,12 @@ class BrandController extends Controller
      public function index()
     {
     	$brand = Brand::all();
-		return view('brandes.list')->with('brand',$brand);
+		return view('brands.list')->with('brand',$brand);
     }
     
     public function create()
     {
-		return view('brandes.add');
+		return view('brands.add');
     }
     
     public function store(Request $request)
@@ -46,13 +46,13 @@ class BrandController extends Controller
     public function show($id)
     {
     	$brand = Brand::find($id);
-		return view('brandes.view')->with('brand',$brand);
+		return view('brands.view')->with('brand',$brand);
     }
     
     public function edit($id)
     {
     	$brand = Brand::find($id);
-		return view('brandes/edit')->with('brand',$brand);;
+		return view('brands/edit')->with('brand',$brand);;
     }
     
     public function update(Request $request,$id)

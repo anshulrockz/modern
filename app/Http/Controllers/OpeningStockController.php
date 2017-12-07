@@ -13,12 +13,12 @@ class OpeningStockController extends Controller
      public function index()
     {
     	$openingstock = OpeningStock::all();
-		return view('openingstockes.list')->with('openingstock',$openingstock);
+		return view('openingstocks.list')->with('openingstock',$openingstock);
     }
     
     public function create()
     {
-		return view('openingstockes.add');
+		return view('openingstocks.add');
     }
     
     public function store(Request $request)
@@ -46,13 +46,13 @@ class OpeningStockController extends Controller
     public function show($id)
     {
     	$openingstock = OpeningStock::find($id);
-		return view('openingstockes.view')->with('openingstock',$openingstock);
+		return view('openingstocks.view')->with('openingstock',$openingstock);
     }
     
     public function edit($id)
     {
     	$openingstock = OpeningStock::find($id);
-		return view('openingstockes/edit')->with('openingstock',$openingstock);;
+		return view('openingstocks/edit')->with('openingstock',$openingstock);;
     }
     
     public function update(Request $request,$id)
