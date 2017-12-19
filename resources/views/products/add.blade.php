@@ -21,7 +21,7 @@
                     <h4 class="panel-title">Add Product</h4>
                 </div>
                 <div class="panel-body">
-            		<form method="post" action="">
+            		<form class="form-custom" method="post" action="{{route('products.store')}}">
                         <div class="row form-body">
                             {{ csrf_field() }}
         					<div class="col-md-6">
@@ -35,7 +35,9 @@
 							      <label>*Category:</label>
 							      <select name="category" id="category" class="form-control">
 								     <option>Select</option>
-								     <option value="medicine">Medicine</option>
+								     @foreach($category as $category)
+								     <option value="{{ $category->id }}">{{ $category->name }}</option>
+								     @endforeach
 								 </select>
 							    </div>
 							</div>
@@ -56,8 +58,9 @@
 							     	<label>*Unit:</label>
 							    	<select name="unit" id="unit" class="form-control">
 									    <option>Select</option>
-										<option value="mg">MG</option>
-										<option value="pkt">PKT</option>
+									    @foreach($unit as $unit)
+									     <option value="{{ $unit->id }}">{{ $unit->name }}</option>
+									     @endforeach
 									</select>
 							    </div>
 							</div>
@@ -66,8 +69,9 @@
 							    	<label>*Brand:</label>
 							    	<select name="brand" id="brand" class="form-control">
 									    <option>Select</option>
-										<option value="omepcon">OMEPCON</option>
-										<option value="atecon">ATECON</option>
+									    @foreach($brand as $brand)
+									     <option value="{{ $brand->id }}">{{ $brand->name }}</option>
+									     @endforeach
 									</select>
 							    </div>
 							</div>
@@ -76,8 +80,9 @@
 								    <label>*Manufacturer:</label>
 								    <select name="manufacturer" id="manufacturer" class="form-control">
 									    <option>Select</option>
-										<option value="rat1">RAT1</option>
-										<option value="rat2">RAT2</option>
+										@foreach($manufacturer as $manufacturer)
+									     <option value="{{ $manufacturer->id }}">{{ $manufacturer->name }}</option>
+									     @endforeach
 									</select>
 							    </div>
 							</div>

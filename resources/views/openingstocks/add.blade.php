@@ -1,5 +1,6 @@
 @extends('layouts.app')
 @section('content')
+<link href="{{asset('assets/plugins/bootstrap-datepicker/css/datepicker3.css')}}" rel="stylesheet" type="text/css"/>
 <!-- BEGIN CONTENT -->
 <div class="page-title">
 	<h3>Opening Stocks</h3>
@@ -21,7 +22,7 @@
                     <h4 class="panel-title">Add Opening Stock</h4>
                 </div>
                 <div class="panel-body">
-                	<form class="form-custom" method="post" action="{{route('units.store')}}">
+                	<form class="form-custom" method="post" action="{{route('opening-stocks.store')}}">
 	                    <div class="row form-body">
 	                        {{ csrf_field() }}
 	            			<div class="col-md-6">
@@ -29,16 +30,20 @@
 								 <label>*Category:</label>
 								 <select name="category" id="category" class="form-control">
 								     <option>Select</option>
-								     <option value="Medicine">Medicine</option>
+								     @foreach($category as $category)
+								     <option value="{{$category->id}}">{{$category->name}}</option>
+								     @endforeach
 								 </select>
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div class="form-group">
 								 <label>*Product:</label>
-								 <select name="item" id="item" class="form-control">
+								 <select name="product" id="product" class="form-control">
 								     <option>Select</option>
-								     <option value="amoxicillin">AMOXICILLIN</option>
+								     @foreach($product as $product)
+								     <option value="{{$product->id}}">{{$product->name}}</option>
+								     @endforeach
 								 </select>
 								</div>
 							</div>
@@ -72,15 +77,21 @@
 							    <div class="form-group">
 								 <label>*Date:</label>
 								 <div class="input-group date">
-								   <input type="text" name="date" id="date" value="{{ old('date') }}" placeholder="Please Enter Date" class="form-control" required=""><span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+								 	<input type="text" name="date" id="date" value="{{ old('date') }}" placeholder="Please Enter Date" class="form-control" required=""><span class="input-group-addon"><i class="fa fa-calendar"></i></span>
 								 </div>
 								</div>
 	                        </div>
+	                        <div class="col-md-6">
+		                        <div class="form-group">
+							      <label>Description:</label>
+							      <textarea class="form-control" cols="1" name="description" id="description" placeholder="Please Enter Description">{{ old('description') }}</textarea>
+							    </div>
+						    </div>
 	                    </div>
 	                    <div class="row form-actions">
 	                    	<div class="col-md-12 ">
 			                    <button type="submit" class="btn btn-info">Save</button>
-			                    <button type="button" class="btn default" onclick="location.href = '{{url('/units')}}';">Cancel</button>
+			                    <button type="button" class="btn default" onclick="location.href = '{{url('/opening-stocks')}}';">Cancel</button>
 		                	</div>
 		                </div>
 	                </form>
@@ -90,15 +101,16 @@
     </div><!-- Row -->
 </div><!-- Main Wrapper -->
 <!-- END CONTENT -->
+<script src="{{asset('assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js')}}"></script>
 <script type='text/javascript'>
 $(function(){
     var nowDate = new Date();
     var today = new Date(nowDate.getFullYear(), nowDate.getMonth(), nowDate.getDate(), 0, 0, 0, 0); 
-    $('.input-group.date').datepicker({
+    $('.date').datepicker({
         calendarWeeks: true,
         todayHighlight: true,
         autoclose: true,
-        format: "dd-MM-yyyy",
+        format: "dd-MM-yyyy",//" yyyy-mm-d",
         //startDate: today
     });
 });

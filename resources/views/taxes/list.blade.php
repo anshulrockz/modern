@@ -19,7 +19,7 @@
                 <div class="panel-heading clearfix">
 		                <h3 class="panel-title">all taxes</h3>
 		                <div class="panel-control">
-                            <a href="{{ url('/units/create') }}"><button class="btn btn-info btn-addon m-b-sm btn-sm"><i class="fa fa-plus"></i> Add New</button></a>
+                            <a href="{{ url('/taxes/create') }}"><button class="btn btn-info btn-addon m-b-sm btn-sm"><i class="fa fa-plus"></i> Add New</button></a>
                         </div>
                 </div>
                 
@@ -32,6 +32,7 @@
                                     <th>#</th>
                                     <th>Name</th>
                                     <th>Rate(%)</th>
+                                    <th>Effective From</th>
                                     <th>Description</th>
                                     <th style="width:50px">Status</th>
                                     <th style="width:230px">Action</th>
@@ -43,6 +44,7 @@
                                     <td>{{ $tax->id }}</td>
                                     <td>{{ $tax->name }}</td>
                                     <td>{{ $tax->rate }}</td>
+                                    <td>{{ $tax->effective_from }}</td>
                                     <td>{{ $tax->description }}</td>
                                     <td>
                                     	@if($tax->is_active==1)
@@ -52,7 +54,7 @@
                                     	@endif
                                     </td>
                                     <td>
-                                        <a href="{{ url('/taxes/'.$tax->id)}}" class="btn btn-sm btn-success">
+                                        <a href="{{ url('/taxes/'.$tax->id)}}" class="btn btn-sm btn-primary">
                                             <i class="fa fa-eye"></i> View
                                         </a>
                                         <a href="{{ url('/taxes/'.$tax->id.'/edit')}}" class="btn btn-sm btn-info">

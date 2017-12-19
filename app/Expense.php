@@ -12,4 +12,9 @@ class Expense extends Model
 {
 	use SoftDeletes;
     protected $dates = ['deleted_at'];
+    
+    public function account()
+    {
+        return $this->hasMany('App\Account');
+    }
 }

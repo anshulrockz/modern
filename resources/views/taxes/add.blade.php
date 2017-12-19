@@ -1,5 +1,6 @@
 @extends('layouts.app')
 @section('content')
+<link href="{{asset('assets/plugins/bootstrap-datepicker/css/datepicker3.css')}}" rel="stylesheet" type="text/css"/>
 <!-- BEGIN CONTENT -->
 <div class="page-title">
     <h3>Taxes</h3>
@@ -33,10 +34,10 @@
 						      <input type="number" class="form-control" name="rate" id="rate" value="{{ old('rate') }}" placeholder="Please Enter Rate" required="">
 						    </div>
 						    <div class="form-group">
-							 <label>Effective From:</label>
-							 <div class="input-group date">
-							   <input type="text" name="effective_from" id="effective_from" value="{{ old('effective_from') }}" placeholder="Please Enter Effective From" class="form-control" required=""><span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-							 </div>
+								 <label>Effective From:</label>
+								 <div class="input-group date">
+								   <input type="text" name="effective_from" id="effective_from" value="{{ old('effective_from') }}" placeholder="Please Enter Effective From" class="form-control" required=""><span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+								 </div>
 							</div>
 						    <div class="form-group">
 						      <label>Description:</label>
@@ -54,4 +55,18 @@
     </div><!-- Row -->
 </div><!-- Main Wrapper -->
 <!-- END CONTENT -->
+<script src="{{asset('assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js')}}"></script>
+<script type='text/javascript'>
+$(function(){
+    var nowDate = new Date();
+    var today = new Date(nowDate.getFullYear(), nowDate.getMonth(), nowDate.getDate(), 0, 0, 0, 0); 
+    $('.date').datepicker({
+        calendarWeeks: true,
+        todayHighlight: true,
+        autoclose: true,
+        format: "yyyy-mm-d",//"dd-MM-yyyy",
+        //startDate: today
+    });
+});
+</script>
 @endsection

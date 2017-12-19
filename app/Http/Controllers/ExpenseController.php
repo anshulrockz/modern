@@ -7,33 +7,50 @@ use App\Http\Controllers\Controller;
 use DB;
 use Auth;
 use App\Expense;
+use App\Account;
 
 class ExpenseController extends Controller
 {
     public function index()
     {
-    	$expenses = Expenses::all();
-		return view('expenseses.list')->with('expenses',$expenses);
+    	$expense = Expense::all()->account();dd($expense);
+		return view('expenses.list')->with('expense',$expense)->with('exaccount',$account)->with('account',$account);
     }
     
     public function create()
     {
-		return view('expenseses.add');
+    	$account = Account::all();
+		return view('expenses.add')->with('exaccount',$account)->with('account',$account);
     }
     
     public function store(Request $request)
     {
     	$this->validate($request, [
-        	'name'=>'required'
+        	'voucher_date'=>'required',
+        	'expense_account'=>'required',
+        	'expense_amount'=>'required',
+        	'paying_account'=>'required',
+        	'paying_amount'=>'required',
+        	'rcm'=>'required',
         ]);
     	
-    	$expenses = new expenses;
-    	$expenses->name=$request->name;
-    	$expenses->description=$request->description;
-    	$expenses->created_by=Auth::id();
-    	$expenses->updated_by=Auth::id();
-    	$expenses->is_active=1;
-    	$result= $expenses->save();
+    	$expense = new expense;
+    	$expense->voucher_num=$request->voucher_no;
+    	$expense->voucher_date=date_format(date_create($request->voucher_date),"Y-m-d");
+    	$expense->voucher_comment=$request->comment1;
+    	$expense->expense_account=$request->expense_account;
+    	$expense->expense_amount=$request->expense_amount;
+    	$expense->expense_comment=$request->comment2;
+    	$expense->paying_account=$request->paying_account;
+    	$expense->paying_amount=$request->paying_amount;
+    	$expense->paying_comment=$request->comment3;
+    	$expense->rcm_nature=$request->rcm;
+//    	$expense->final_expense_amount=$request->final_expense_amount;
+//    	$expense->final_income_amount=$request->final_income_amount;
+    	$expense->created_by=Auth::id();
+    	$expense->updated_by=Auth::id();
+    	$expense->is_active=1;
+    	$result= $expense->save();
     	
 		if($result){
 			return back()->with('success', 'Record added successfully!');
@@ -45,14 +62,14 @@ class ExpenseController extends Controller
     
     public function show($id)
     {
-    	$expenses = Expenses::find($id);
-		return view('expenseses.view')->with('expenses',$expenses);
+    	$expense = expense::find($id);
+		return view('expenses.view')->with('expense',$expense);
     }
     
     public function edit($id)
     {
-    	$expenses = Expenses::find($id);
-		return view('expenseses/edit')->with('expenses',$expenses);;
+    	$expense = expense::find($id);
+		return view('expenses.edit')->with('expense',$expense);;
     }
     
     public function update(Request $request,$id)
@@ -61,11 +78,11 @@ class ExpenseController extends Controller
         	'name'=>'required',
         ]);
         
-    	$expenses = Expenses::find($id);
-    	$expenses->name=$request->name;
-    	$expenses->description=$request->description;
-    	$expenses->updated_by=1;
-    	$result = $expenses->save();
+    	$expense = expense::find($id);
+    	$expense->name=$request->name;
+    	$expense->description=$request->description;
+    	$expense->updated_by=1;
+    	$result = $expense->save();
     	
 		if($result){
 			return back()->with('success', 'Record updated successfully!');
@@ -77,7 +94,7 @@ class ExpenseController extends Controller
     
     public function destroy($id)
     {
-    	$result = Expenses::find($id)->delete();
+    	$result = expense::find($id)->delete();
         
 		if($result){
 			return back()->with('success','Record deleted successfully!');

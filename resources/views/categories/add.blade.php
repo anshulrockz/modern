@@ -6,7 +6,7 @@
     <div class="page-breadcrumb">
         <ol class="breadcrumb">
             <li><a href="{{url('/')}}">Home</a></li>
-            <li><a href="{{url('/categories')}}">Categories</a></li>
+            <li><a href="{{url('categories')}}">Categories</a></li>
             <li class="active">Add</li>
         </ol>
     </div>
@@ -35,7 +35,7 @@
 		                </div>
 		                <div class="form-actions">
 		                    <button type="submit" class="btn btn-info">Save</button>
-		                    <button type="button" class="btn default" onclick="location.href = '{{url('/categories')}}';">Cancel</button>
+		                    <button type="button" class="btn default" onclick="location.href = '{{url('categories')}}';">Cancel</button>
 		                </div>
 		            </form>
 		        </div>

@@ -13,46 +13,47 @@ class TermController extends Controller
      public function index()
     {
     	$term = Term::all();
-		return view('termes.list')->with('term',$term);
+		return view('terms.list')->with('term',$term);
     }
     
     public function create()
     {
-		return view('termes.add');
+		return view('terms.add');
     }
     
     public function store(Request $request)
     {
-    	$this->validate($request, [
-        	'name'=>'required'
-        ]);
-    	
-    	$term = new term;
-    	$term->name=$request->name;
-    	$term->description=$request->description;
-    	$term->created_by=Auth::id();
-    	$term->updated_by=Auth::id();
-    	$term->is_active=1;
-    	$result= $term->save();
-    	
-		if($result){
-			return back()->with('success', 'Record added successfully!');
+//    	$this->validate($request, [
+//        	'name'=>'required'
+//        ]);
+		try{
+			$term = array();
+	    	foreach ($request->term as $statement) {
+		        $term = new term;
+		    	$term->term=$statement;
+		    	$term->created_by=Auth::id();
+		    	$term->updated_by=Auth::id();
+		    	$term->is_active=1;
+		    	$term->save();
+		    }
+		    return back()->with('success', 'Record added successfully!');
 		}
-		else{
-			return back()->with('error', 'Something went wrong!');
+		catch(\Exception $e){
+			$error = $e->errorInfo[1];
+	        return back()->with('error', 'Something went wrong! (error code:'.$error.')');
 		}
     }
     
     public function show($id)
     {
     	$term = Term::find($id);
-		return view('termes.view')->with('term',$term);
+		return view('terms.view')->with('term',$term);
     }
     
     public function edit($id)
     {
     	$term = Term::find($id);
-		return view('termes/edit')->with('term',$term);;
+		return view('terms.edit')->with('term',$term);;
     }
     
     public function update(Request $request,$id)

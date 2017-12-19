@@ -1,12 +1,12 @@
 @extends('layouts.app')
 @section('content')
 <div class="page-title">
-    <h3>Dashboard</h3>
+    <h3>Terms & Conditions</h3>
     <div class="page-breadcrumb">
         <ol class="breadcrumb">
             <li><a href="{{url('/')}}">Home</a></li>
-            <li><a href="{{url('/units')}}">Units</a></li>
-            <li class="active">{{ $unit->name }}</li>
+            <li><a href="{{url('/terms')}}">Terms & Conditions</a></li>
+            <li class="active">{{ $term->id }}</li>
         </ol>
     </div>
 </div>
@@ -15,19 +15,16 @@
     	<div class="col-md-6">
             <div class="panel panel-white">
                 <div class="panel-heading clearfix">
-                    <h4 class="panel-title">{{ $unit->name }}</h4>
+                    <h4 class="panel-title">view Terms & Conditions</h4>
                 </div>
                 <div class="panel-body">
                     <table class="table table-striped">
                     	<tbody>
 						  	<tr>
 						      <th>Name</th>
-						      <td>{{ $unit->name }}</td>
+						      <td>{{ $term->term }}</td>
 						    </tr>
 						    <tr>
-						      <th>Description</th>
-						      <td>{{ $unit->description }}</td>
-						    </tr>
 						  </tbody>
 						</table>
                     </div>

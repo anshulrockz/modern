@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use DB;
 use Auth;
 use App\Tax;
+use Carbon\Carbon;
 
 class TaxController extends Controller
 {
@@ -24,23 +25,28 @@ class TaxController extends Controller
     public function store(Request $request)
     {
     	$this->validate($request, [
-        	'name'=>'required'
+        	'name'=>'required',
+        	'rate'=>'required',
+        	'effective_from'=>'required',
         ]);
     	
     	$tax = new tax;
     	$tax->name=$request->name;
+    	$tax->rate=$request->rate;
+    	$tax->effective_from=$request->effective_from;
     	$tax->description=$request->description;
     	$tax->created_by=Auth::id();
     	$tax->updated_by=Auth::id();
     	$tax->is_active=1;
-    	$result= $tax->save();
     	
-		if($result){
-			return back()->with('success', 'Record added successfully!');
-		}
-		else{
-			return back()->with('error', 'Something went wrong!');
-		}
+    	try{
+	        $result= $tax->save();
+	        return back()->with('success', 'Record added successfully!');
+	    }
+	    catch (\Exception $e){
+	        $error = $e->errorInfo[1];
+	        return back()->with('error', 'Something went wrong! (error code:'.$error.')');
+	    }
     }
     
     public function show($id)
@@ -59,20 +65,24 @@ class TaxController extends Controller
     {
     	$this->validate($request, [
         	'name'=>'required',
+        	'rate'=>'required',
+        	'effective_from'=>'required',
         ]);
-        
     	$tax = Tax::find($id);
     	$tax->name=$request->name;
+    	$tax->rate=$request->rate;
+    	$tax->effective_from=$request->effective_from;
     	$tax->description=$request->description;
-    	$tax->updated_by=1;
-    	$result = $tax->save();
+    	$tax->updated_by=Auth::id();
     	
-		if($result){
-			return back()->with('success', 'Record updated successfully!');
-		}
-		else{
-			return back()->with('error', 'Something went wrong!');
-		}
+    	try{
+	        $result= $tax->save();
+	        return back()->with('success', 'Record added successfully!');
+	    }
+	    catch (\Exception $e){
+	        $error = $e->errorInfo[1];
+	        return back()->with('error', 'Something went wrong! (error code:'.$error.')');
+	    }
     }
     
     public function destroy($id)

@@ -7,6 +7,10 @@ use App\Http\Controllers\Controller;
 use DB;
 use Auth;
 use App\Product;
+use App\Category;
+use App\Unit;
+use App\Brand;
+use App\Manufacturer;
 
 class ProductController extends Controller
 {
@@ -18,7 +22,15 @@ class ProductController extends Controller
     
     public function create()
     {
-		return view('products.add');
+    	$category = Category::all();
+    	$unit = Unit::all();
+    	$brand = Brand::all();
+    	$manufacturer = Manufacturer::all();
+		return view('products.add')
+		->with('category',$category)
+		->with('unit',$unit)
+		->with('brand',$brand)
+		->with('manufacturer',$manufacturer);
     }
     
     public function store(Request $request)
@@ -78,7 +90,7 @@ class ProductController extends Controller
     	$product = Product::find($id);
     	$product->name=$request->name;
     	$product->description=$request->description;
-    	$product->updated_by=1;
+    	$product->updated_by=Auth::id();
     	
     	try{
 	    	$result = $product->save();

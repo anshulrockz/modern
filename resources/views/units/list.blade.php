@@ -17,10 +17,10 @@
         <div class="col-md-12">
         	<div class="panel panel-white">
                 <div class="panel-heading clearfix">
-		                <h3 class="panel-title">All units</h3>
-		                <div class="panel-control">
-		                	<a href="{{ url('/units/create') }}"><button class="btn btn-info btn-addon m-b-sm btn-sm"><i class="fa fa-plus"></i> Add New</button></a>
-                        </div>
+	                <h3 class="panel-title">All units</h3>
+	                <div class="panel-control">
+	                	<a href="{{ url('/units/create') }}"><button class="btn btn-info btn-addon m-b-sm btn-sm"><i class="fa fa-plus"></i> Add New</button></a>
+                    </div>
                 </div>
 	            @include('layouts.flashmessage')
                 <div class="panel-body">

@@ -12,8 +12,13 @@ class UnitController extends Controller
 {
     public function index()
     {
-    	$unit = Unit::all();
-		return view('units.list')->with('unit',$unit);
+    	try{
+    		$unit = Unit::all();
+			return view('units.list')->with('unit',$unit);
+		}
+		catch(\Exception $e){
+	        return back()->with('error', 'Something went wrong! Please Contact Your Admin');
+		}   
     }
     
     public function create()
@@ -51,7 +56,7 @@ class UnitController extends Controller
 	    }
 	    catch (\Exception $e){
 	        $error = $e->errorInfo[1];
-	        return back()->with('error', 'Something went wrong! (error code:'.$error.')');
+	        return back()->with('error', 'Something went wrong! Please Contact Your Admin');
 	    }
     	
     }
@@ -83,11 +88,13 @@ class UnitController extends Controller
     
     public function destroy($id)
     {
-    	$result = Unit::find($id)->delete();
-		if($result)
-			return back()->with('success','Record deleted successfully!');
-		else
-			return back()->with('error','Something went wrong!');
+    	try{
+    		$result = Unit::find($id)->delete();
+    		return back()->with('success','Record deleted successfully!');
+		}
+		catch(\Exception $e){
+			return back()->with('error', 'Something went wrong! (error code:'.$error.')');
+		}
 	}
 	
 }

@@ -9,6 +9,7 @@ use File;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\User;
+use Carbon\Carbon;
 
 class ProfileController extends Controller
 {
@@ -41,7 +42,6 @@ class ProfileController extends Controller
 				'email'=>'required|email',
 				'image' => 'image|max:2048'
 			]);
-			
 			if($image){
 			    $image_name = 'profile.png';
 			    $image->move(public_path('uploads/'.$user_id.md5($name)), $image_name);

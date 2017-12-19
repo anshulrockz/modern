@@ -2,10 +2,11 @@
 @section('content')
 <!-- BEGIN CONTENT -->
 <div class="page-title">
+    <h3>Accounts</h3>
     <div class="page-breadcrumb">
         <ol class="breadcrumb">
             <li><a href="{{url('/')}}">Home</a></li>
-            <li><a href="{{url('/units')}}">Units</a></li>
+            <li><a href="{{url('/accounts')}}">Accounts</a></li>
             <li class="active">Add</li>
         </ol>
     </div>
@@ -14,13 +15,13 @@
     <div class="row">
     	<!--Content Here-->
     	<div class="col-md-6">
-    		@include('flashmessage')
+    		@include('layouts.flashmessage')
     		<div class="panel panel-white">
                 <div class="panel-heading clearfix">
-                    <h4 class="panel-title">Add</h4>
+                    <h4 class="panel-title">Add Account</h4>
                 </div>
                 <div class="panel-body">
-		    		<form class="form-custom" method="post" action="{{route('units.store')}}">
+		    		<form class="form-custom" method="post" action="{{route('accounts.store')}}">
 		                <div class="form-body">
 		                    {{ csrf_field() }}
 						    <div class="form-group">
@@ -28,13 +29,35 @@
 						      <input type="text" class="form-control" name="name" id="name" value="{{ old('name') }}" placeholder="Please Enter Name" >
 						    </div>
 						    <div class="form-group">
-						      <label>Description:</label>
-						      <textarea class="form-control" name="description" id="description" placeholder="Please Enter Description">{{ old('description') }}</textarea>
+						      	<label>*GST %:</label>
+							    <select name="gst" id="gst" class="form-control">
+								     <option>Select</option>
+								     <option value="5">5</option>
+								     <option value="12">12</option>
+								     <option value="18">18</option>
+								     <option value="24">24</option>
+								 </select>
+						    </div>
+						    <div class="form-group">
+						      <label>*HSN Code:</label>
+						      <input type="text" class="form-control" name="hsn_code" id="hsn_code" value="{{ old('hsn_code') }}" placeholder="Please Enter HSN Code" >
+						    </div>
+						    <div class="form-group">
+						      <label>*Parent Acount Name:</label>
+						      <input type="text" class="form-control" name="pan" id="pan" value="{{ old('pan') }}" placeholder="Please Enter Parent Acount Name" >
+						    </div>
+						    <div class="form-group">
+						      	<label>ITC Eligibility:</label>
+						    	<select name="itc" id="itc" class="form-control">
+								     <option>Select</option>
+								     <option value="0">No</option>
+								     <option value="1">Yes</option>
+								 </select>
 						    </div>
 		                </div>
 		                <div class="form-actions">
 		                    <button type="submit" class="btn btn-info">Save</button>
-		                    <button type="button" class="btn default" onclick="location.href = '{{url('/units')}}';">Cancel</button>
+		                    <button type="button" class="btn default" onclick="location.href = '{{url('/accounts')}}';">Cancel</button>
 		                </div>
 		            </form>
 		        </div>

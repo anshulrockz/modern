@@ -7,6 +7,8 @@ use App\Http\Controllers\Controller;
 use DB;
 use Auth;
 use App\OpeningStock;
+use App\Category;
+use App\Product;
 
 class OpeningStockController extends Controller
 {
@@ -18,17 +20,25 @@ class OpeningStockController extends Controller
     
     public function create()
     {
-		return view('openingstocks.add');
+    	$category=Category::all();
+    	$product=Product::all();
+		return view('openingstocks.add')->with('category',$category)->with('product',$product);
     }
     
     public function store(Request $request)
     {
     	$this->validate($request, [
-        	'name'=>'required'
+        	'product'=>'required'
         ]);
     	
     	$openingstock = new openingstock;
-    	$openingstock->name=$request->name;
+    	$openingstock->category=$request->category;
+    	$openingstock->product=$request->product;
+    	$openingstock->barcode=$request->barcode;
+    	$openingstock->expiry_date=date_format(date_create($request->expiry_date),"Y-m-d");
+    	$openingstock->quantity=$request->quantity;
+    	$openingstock->cost=$request->cost;
+    	$openingstock->date=date_format(date_create($request->date),"Y-m-d");
     	$openingstock->description=$request->description;
     	$openingstock->created_by=Auth::id();
     	$openingstock->updated_by=Auth::id();
@@ -60,11 +70,10 @@ class OpeningStockController extends Controller
     	$this->validate($request, [
         	'name'=>'required',
         ]);
-        
-    	$openingstock = OpeningStock::find($id);
+        $openingstock = new openingstock;
     	$openingstock->name=$request->name;
     	$openingstock->description=$request->description;
-    	$openingstock->updated_by=1;
+    	$openingstock->updated_by=Auth::id();
     	$result = $openingstock->save();
     	
 		if($result){

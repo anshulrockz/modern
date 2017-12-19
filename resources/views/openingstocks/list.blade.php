@@ -46,18 +46,21 @@
                             	@foreach($openingstock as $openingstock)
                                 <tr>
                                     <td>{{ $openingstock->id }}</td>
-                                    <td>{{ $openingstock->name }}</td>
-                                    <td>{{ $openingstock->description }}</td>
-                                    <td>{{ $openingstock->description }}</td>
-                                    <td>{{ $openingstock->description }}</td>
+                                    <td>{{ $openingstock->product }}</td>
+                                    <td>{{ $openingstock->barcode }}</td>
+                                    <td>{{ date_format(date_create($openingstock->expiry_date),"d-M-y") }}</td>
+                                    <td>{{ $openingstock->quantity }}</td>
+                                    <td>{{ $openingstock->cost }}</td>
+                                    <td>{{ $openingstock->amount }}</td>
+                                    <td>{{ date_format(date_create($openingstock->date),"d-M-y") }}</td>
                                     <td>
-                                        <a href="{{ url('/openingstocks/'.$openingstock->id)}}" class="btn btn-sm btn-success">
+                                        <a href="{{ url('/opening-stocks/'.$openingstock->id)}}" class="btn btn-sm btn-success">
                                             <i class="fa fa-eye"></i> View
                                         </a>
-                                        <a href="{{ url('/openingstocks/'.$openingstock->id.'/edit')}}" class="btn btn-sm btn-info">
+                                        <a href="{{ url('/opening-stocks/'.$openingstock->id.'/edit')}}" class="btn btn-sm btn-info">
                                             <i class="fa fa-pencil"></i> Edit
                                         </a>
-                                        <form style="display: inline;" method="post" action="{{route('openingstocks.destroy',$openingstock->id)}}">
+                                        <form style="display: inline;" method="post" action="{{route('opening-stocks.destroy',$openingstock->id)}}">
 					                        {{ csrf_field() }}
 					                        {{ method_field('DELETE') }}
 					                        <button onclick="return confirm('Are you sure you want to Delete?');" type="submit" class="btn btn-sm btn-danger">Delete</button>

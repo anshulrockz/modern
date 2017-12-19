@@ -23,23 +23,30 @@ class AccountController extends Controller
     
     public function store(Request $request)
     {
-    	$this->validate($request, [
-        	'name'=>'required'
-        ]);
-    	
-    	$account = new account;
-    	$account->name=$request->name;
-    	$account->description=$request->description;
-    	$account->created_by=Auth::id();
-    	$account->updated_by=Auth::id();
-    	$account->is_active=1;
-    	$result= $account->save();
-    	
-		if($result){
-			return back()->with('success', 'Record added successfully!');
+    	try{
+    		$this->validate($request, [
+	        	'name'=>'required',
+	        	'gst'=>'required',
+	        	'hsn_code'=>'required',
+	        	'pan'=>'required',
+	        	'itc'=>'required',
+	        ]);
+	    	
+	    	$account = new Account;
+	    	$account->name=$request->name;
+	    	$account->gst=$request->gst;
+	    	$account->hsn_code=$request->hsn_code;
+	    	$account->parent_account_number=$request->pan;
+	    	$account->itc_eligibility=$request->itc;
+	    	$account->created_by=Auth::id();
+	    	$account->updated_by=Auth::id();
+	    	$account->is_active=1;
+	    	$result= $account->save();
+	    	return back()->with('success', 'Record added successfully!');
 		}
-		else{
-			return back()->with('error', 'Something went wrong!');
+		catch(\Exception $e){
+			$error = $e->errorInfo[1];
+	        return back()->with('error', 'Something went wrong! (error code:'.$error.')');
 		}
     }
     
@@ -57,21 +64,28 @@ class AccountController extends Controller
     
     public function update(Request $request,$id)
     {
-    	$this->validate($request, [
-        	'name'=>'required',
-        ]);
-        
-    	$account = Account::find($id);
-    	$account->name=$request->name;
-    	$account->description=$request->description;
-    	$account->updated_by=1;
-    	$result = $account->save();
-    	
-		if($result){
-			return back()->with('success', 'Record updated successfully!');
+    	try{
+    		$this->validate($request, [
+	        	'name'=>'required',
+	        	'gst'=>'required',
+	        	'hsn_code'=>'required',
+	        	'pan'=>'required',
+	        	'itc'=>'required',
+	        ]);
+	        
+	    	$account = Account::find($id);
+	    	$account->name=$request->name;
+	    	$account->gst=$request->gst;
+	    	$account->hsn_code=$request->hsn_code;
+	    	$account->parent_account_number=$request->pan;
+	    	$account->itc_eligibility=$request->itc;
+	    	$account->updated_by=Auth::id();
+	    	$result = $account->save();
+	    	return back()->with('success', 'Record updated successfully!');
 		}
-		else{
-			return back()->with('error', 'Something went wrong!');
+		catch(\Exception $e){
+			$error = $e->errorInfo[1];
+	        return back()->with('error', 'Something went wrong! (error code:'.$error.')');
 		}
     }
     

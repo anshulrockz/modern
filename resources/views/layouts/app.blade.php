@@ -37,6 +37,8 @@
         <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
         <![endif]-->
         <script src="{{asset('assets/plugins/jquery/jquery-2.1.4.min.js')}}"></script>
+        
+        <script src="{{asset('assets/plugins/jquery-ui/jquery-ui.min.js')}}"></script>
     </head>
     <body class="page-header-fixed page-sidebar-fixed">
         <div class="overlay"></div>
@@ -367,7 +369,7 @@
                         </div>
                     </div>
                     <ul class="menu accordion-menu">
-                       	<li class=""><a href="/" class="waves-effect waves-button"><span class="menu-icon glyphicon glyphicon-home"></span><p>Dashboard</p></a></li>
+                       	<li class=""><a href="{{url('/')}}" class="waves-effect waves-button"><span class="menu-icon glyphicon glyphicon-home"></span><p>Dashboard</p></a></li>
                         <li class="droplink"><a href="#" class="waves-effect waves-button"><span class="menu-icon glyphicon glyphicon-gift"></span><p>Masters</p><span class="arrow"></span></a>
                             <ul class="sub-menu">
                                 <li><a href="{{ url('/products') }}">Products</a></li>
@@ -428,7 +430,6 @@
 	
 
         <!-- Javascripts -->
-        <script src="{{asset('assets/plugins/jquery-ui/jquery-ui.min.js')}}"></script>
         <script src="{{asset('assets/plugins/pace-master/pace.min.js')}}"></script>
         <script src="{{asset('assets/plugins/jquery-blockui/jquery.blockui.js')}}"></script>
         <script src="{{asset('assets/plugins/bootstrap/js/bootstrap.min.js')}}"></script>
